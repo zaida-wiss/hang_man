@@ -21,6 +21,8 @@ const Dashboard = ({ title }) => {
   }, [guess]);
 
   const secretWord = "react";
+  const maxWrong = 6;
+
 
 const handleNewGuess = (event) => {
   event.preventDefault();           // 1. stoppa reload
@@ -57,10 +59,7 @@ const handleNewGuess = (event) => {
 return (
   <div>
       <h1>{title}</h1>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>
-        Öka
-      </button>
+      <p>Fel: {count}/ {maxWrong}</p>
       <form onSubmit={handleNewGuess}>
         <input
           type="text"
