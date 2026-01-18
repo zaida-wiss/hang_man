@@ -4,6 +4,7 @@ const Dashboard = ({ title }) => {
   const [count, setCount] = useState(0);
   const [guess, setGuess] = useState("hej");
   const [guesses, setGuesses] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
   if (count > 0) {
@@ -23,12 +24,24 @@ const handleNewGuess = (event) => {
   event.preventDefault();           // 1. stoppa reload
 
   const cleanedGuess = guess.trim().toLowerCase();
-  if (!cleanedGuess) return;
-  if (guesses.includes(cleanedGuess)) return;
 
+  if (!cleanedGuess) {
+    setError("Du har inte skrivit någonting");
+    return;
+  }
+
+  if (guesses.includes(cleanedGuess)) {
+    setError("Du har redan gissat på den här bokstaven");
+    return;
+  }
+
+  setError("");
   setGuesses((prevGuesses) => [...prevGuesses, cleanedGuess]);  // 2. lägg till gissning
-  setGuess("");                     // 3. töm input
+  setGuess("");              // 3. töm input
+
+
 };
+
 
 return (
   <div>
@@ -44,6 +57,7 @@ return (
           onChange={(event) => setGuess(event.target.value)}  />
         <button type="submit">Gissa</button>
       </form>
+      {error && <p>{error}</p>}
       <ul>
         {guesses.map((g, index) => (
           <li key={index}>{g}</li>
