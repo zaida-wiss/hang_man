@@ -7,18 +7,20 @@ const Dashboard = ({ title }) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-  if (count > 0) {
-    // logik här
-    console.log("Ökade med ett poäng:", count);
-  }
-}, [count]);
+    if (count > 0) {
+      // logik här
+      console.log("Ökade med ett poäng:", count);
+    }
+  }, [count]);
 
-useEffect(() => {
-  if (guess.trim().length > 0) {
-    // logik här
-    console.log("Du gissade:", guess);
-  }
-}, [guess]);
+  useEffect(() => {
+    if (guess.trim().length > 0) {
+      // logik här
+      console.log("Du gissade:", guess);
+    }
+  }, [guess]);
+
+  const secretWord = "react";
 
 const handleNewGuess = (event) => {
   event.preventDefault();           // 1. stoppa reload
@@ -30,9 +32,18 @@ const handleNewGuess = (event) => {
     return;
   }
 
+  if (cleanedGuess.length !== 1) {
+    setError("Skriv endast en bokstav i taget");
+    return;
+  }
+
   if (guesses.includes(cleanedGuess)) {
     setError("Du har redan gissat på den här bokstaven");
     return;
+  }
+
+  if (!secretWord.includes(cleanedGuess)) {
+    setCount((prev) => prev+1);
   }
 
   setError("");
