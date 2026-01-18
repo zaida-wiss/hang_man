@@ -22,8 +22,9 @@ useEffect(() => {
 const handleNewGuess = (event) => {
   event.preventDefault();           // 1. stoppa reload
 
-  const cleanedGuess = guess.trim();
+  const cleanedGuess = guess.trim().toLowerCase();
   if (!cleanedGuess) return;
+  if (guesses.includes(cleanedGuess)) return;
 
   setGuesses((prevGuesses) => [...prevGuesses, cleanedGuess]);  // 2. lägg till gissning
   setGuess("");                     // 3. töm input
