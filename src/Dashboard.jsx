@@ -55,17 +55,43 @@ const handleNewGuess = (event) => {
 
 };
 
+const isGameOver = count >=maxWrong;
+
+const isWinner = secretWord
+  .split("")
+  .every((letter) => guesses.includes(letter));
+
 
 return (
-  <div>
+  <div style={{ backgroundColor: "red",
+                padding: 20,
+                textAlign: "center",
+  }}>
+
       <h1>{title}</h1>
       <p>Fel: {count}/ {maxWrong}</p>
-      <form onSubmit={handleNewGuess}>
+      <p>
+{isWinner && <p>🎉 Du vann!</p>}
+{isGameOver && !isWinner && <p>💀 Game over! Ordet var: {secretWord}</p>}
+
+
+        {secretWord.split("").map((letter, index) =>
+        guesses.includes(letter) ? (
+          <span key={index}>{letter} </span>
+        ):(
+          <span key={index}>_ </span>
+        )
+      )}
+      </p>
+        <form onSubmit={handleNewGuess}>
+
         <input
           type="text"
           value={guess}
-          onChange={(event) => setGuess(event.target.value)}  />
-        <button type="submit">Gissa</button>
+          onChange={(event) => setGuess(event.target.value)}
+          disabled= {isGameOver || isWinner}  />
+
+        <button type="submit" disabled= {isGameOver || isWinner} >Gissa</button>
       </form>
       {error && <p>{error}</p>}
       <ul>
