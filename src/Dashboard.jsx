@@ -28,7 +28,6 @@ const handleNewGuess = (event) => {
   event.preventDefault();           // 1. stoppa reload
 
   const cleanedGuess = guess.trim().toLowerCase();
-
   if (!cleanedGuess) {
     setError("Du har inte skrivit någonting");
     return;
@@ -55,6 +54,13 @@ const handleNewGuess = (event) => {
 
 };
 
+const handleReset = () => {
+  setCount(0);
+  setGuess("");
+  setGuesses([]);
+  setError("");
+};
+
 const isGameOver = count >=maxWrong;
 
 const isWinner = secretWord
@@ -70,26 +76,30 @@ return (
 
       <h1>{title}</h1>
       <p>Fel: {count}/ {maxWrong}</p>
-      <p>
-{isWinner && <p>🎉 Du vann!</p>}
-{isGameOver && !isWinner && <p>💀 Game over! Ordet var: {secretWord}</p>}
+
+        <div>
+          {isWinner && <p>🎉 Du vann!</p>}
+          {isGameOver && !isWinner && <p>💀 Game over! Ordet var: {secretWord}</p>}
+
+          <p>
+            {secretWord.split("").map((letter, index) =>
+              guesses.includes(letter) ? (
+                <span key={index}>{letter} </span>
+              ) : (
+                <span key={index}>_ </span>
+              )
+            )}
+          </p>
+        </div>
 
 
-        {secretWord.split("").map((letter, index) =>
-        guesses.includes(letter) ? (
-          <span key={index}>{letter} </span>
-        ):(
-          <span key={index}>_ </span>
-        )
-      )}
-      </p>
         <form onSubmit={handleNewGuess}>
 
         <input
           type="text"
           value={guess}
           onChange={(event) => setGuess(event.target.value)}
-          disabled= {isGameOver || isWinner}  />
+          disabled={isGameOver || isWinner}  />
 
         <button type="submit" disabled= {isGameOver || isWinner} >Gissa</button>
       </form>
@@ -99,7 +109,7 @@ return (
           <li key={index}>{g}</li>
         ))}
       </ul>
-
+        {(isGameOver || isWinner) && (<button onClick={handleReset}>Reset</button>)}
     </div>
   );
 };
