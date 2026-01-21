@@ -96,6 +96,7 @@ return (
         <form onSubmit={handleNewGuess}>
 
         <input
+          className="inputBox"
           type="text"
           value={guess}
           onChange={(event) => setGuess(event.target.value)}
@@ -110,6 +111,7 @@ return (
         ))}
       </ul>
         {(isGameOver || isWinner) && (<button onClick={handleReset}>Reset</button>)}
+      <button onClick={handleReset}>Reset</button>
     </div>
   );
 };

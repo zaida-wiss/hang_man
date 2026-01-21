@@ -47,3 +47,9 @@
   margin: 0;
 }
 
+.inputBox {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  margin: 30px;
+}
